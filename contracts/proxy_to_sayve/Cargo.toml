@@ -1,6 +1,6 @@
 [package]
-name = "generator-proxy-to-vkr"
-version = "0.0.0"
+name = "generator-proxy-to-sayve"
+version = "0.0.1"
 authors = ["_astromartian"]
 edition = "2021"
 
@@ -25,7 +25,7 @@ cw-storage-plus = "0.15"
 thiserror = { version = "1.0" }
 cw2 = "0.15"
 cw20 = "0.15"
-valkyrie = { git = "https://github.com/valkyrieprotocol/contracts.git", rev = "b5fcb666f17d7e291f40365756e50fc0d7b9bf54" }
+sayve = { git = "https://github.com/sayveprotocol/sayve-terra2.git"}
 astroport = { git = "https://github.com/astroport-fi/astroport-core.git", branch = "main" }
-ap-valkyrie = { path = "../../packages/valkyrie" }
+ap-sayve = { path = "../../packages/sayve" }
 cosmwasm-schema = "1.1"

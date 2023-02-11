@@ -19,27 +19,27 @@ async function main() {
     throw new Error("Set the proper owner multisig for the contracts")
   }
 
-  await uploadAndInitGenProxyToVkr(terra, wallet)
+  await uploadAndInitGenProxyToSayve(terra, wallet)
 }
 
-async function uploadAndInitGenProxyToVkr(terra: LCDClient, wallet: Wallet) {
+async function uploadAndInitGenProxyToSayve(terra: LCDClient, wallet: Wallet) {
   const network = readArtifact(terra.config.chainID);
 
-  if (!network.generatorProxyToVkrAddress) {
-    console.log('Deploy the Generator proxy to vkr...');
+  if (!network.generatorProxyToSayveAddress) {
+    console.log('Deploy the Generator proxy to sayve...');
 
-    chainConfigs.proxyVKR.admin ||= chainConfigs.generalInfo.multisig
+    chainConfigs.proxySAYVE.admin ||= chainConfigs.generalInfo.multisig
 
-    network.generatorProxyToVkrAddress = await deployContract(
+    network.generatorProxyToSayveAddress = await deployContract(
       terra,
       wallet,
-      chainConfigs.proxyVKR.admin,
-      join(ARTIFACTS_PATH, "generator_proxy_to_vkr.wasm"),
-      chainConfigs.proxyVKR.initMsg,
-      chainConfigs.proxyVKR.label,
+      chainConfigs.proxySAYVE.admin,
+      join(ARTIFACTS_PATH, "generator_proxy_to_sayve.wasm"),
+      chainConfigs.proxySAYVE.initMsg,
+      chainConfigs.proxySAYVE.label,
     );
 
-    console.log(`Address Generator proxy to VKR contract: ${network.generatorProxyToVkrAddress}`)
+    console.log(`Address Generator proxy to SAYVE contract: ${network.generatorProxyToSayveAddress}`)
     writeArtifact(network, terra.config.chainID)
   }
 }

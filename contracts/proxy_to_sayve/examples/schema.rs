@@ -1,4 +1,4 @@
-use ap_valkyrie::MigrateMsg;
+use ap_sayve::MigrateMsg;
 use astroport::generator_proxy::{ExecuteMsg, InstantiateMsg, QueryMsg};
 use cosmwasm_schema::write_api;
 

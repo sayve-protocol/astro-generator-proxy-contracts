@@ -1,5 +1,5 @@
 [package]
-name = "ap-valkyrie"
+name = "ap-sayve"
 version = "1.0.0"
 authors = ["Terraform Labs, PTE."]
 edition = "2021"

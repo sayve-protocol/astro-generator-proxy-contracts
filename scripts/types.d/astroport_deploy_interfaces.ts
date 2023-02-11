@@ -2,7 +2,7 @@ interface GeneralInfo {
     multisig: string
 }
 
-interface ProxyVKR {
+interface ProxySAYVE {
     admin: string,
     initMsg: {
         generator_contract_addr: string,
@@ -16,5 +16,5 @@ interface ProxyVKR {
 
 interface Config {
     generalInfo: GeneralInfo,
-    proxyVKR: ProxyVKR,
+    proxySAYVE: ProxySAYVE,
 }

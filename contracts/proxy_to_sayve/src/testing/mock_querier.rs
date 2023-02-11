@@ -6,7 +6,7 @@ use cosmwasm_std::{
 };
 use cw20::{BalanceResponse as Cw20BalanceResponse, Cw20QueryMsg};
 use std::collections::HashMap;
-use valkyrie::lp_staking::query_msgs::StakerInfoResponse;
+use sayve::lp_staking::query_msgs::StakerInfoResponse;
 
 /// mock_dependencies is a drop-in replacement for cosmwasm_std::testing::mock_dependencies
 /// this uses our CustomQuerier.

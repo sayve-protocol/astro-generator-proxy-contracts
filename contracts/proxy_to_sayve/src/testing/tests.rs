@@ -6,8 +6,8 @@ use astroport::generator_proxy::{CallbackMsg, Cw20HookMsg, ExecuteMsg, Instantia
 use cosmwasm_std::testing::{mock_env, mock_info, MOCK_CONTRACT_ADDR};
 use cosmwasm_std::{from_binary, to_binary, Addr, CosmosMsg, SubMsg, Uint128, WasmMsg};
 use cw20::{Cw20ExecuteMsg, Cw20ReceiveMsg};
-use valkyrie::lp_staking::execute_msgs::{
-    Cw20HookMsg as VkrCw20HookMsg, ExecuteMsg as VkrExecuteMsg,
+use sayve::lp_staking::execute_msgs::{
+    Cw20HookMsg as SayveCw20HookMsg, ExecuteMsg as SayveExecuteMsg,
 };
 
 #[test]
@@ -17,9 +17,9 @@ fn test_proper_initialization() {
     let msg = InstantiateMsg {
         generator_contract_addr: "generator0000".to_string(),
         pair_addr: "pair0000".to_string(),
-        lp_token_addr: "vkrust0000".to_string(),
+        lp_token_addr: "sayveust0000".to_string(),
         reward_contract_addr: "reward0000".to_string(),
-        reward_token_addr: "vkr0000".to_string(),
+        reward_token_addr: "sayve0000".to_string(),
     };
 
     let info = mock_info("addr0000", &[]);
@@ -28,9 +28,9 @@ fn test_proper_initialization() {
     let config: Config = CONFIG.load(deps.as_ref().storage).unwrap();
     assert_eq!("generator0000", config.generator_contract_addr.as_str());
     assert_eq!("pair0000", config.pair_addr.as_str());
-    assert_eq!("vkrust0000", config.lp_token_addr.as_str());
+    assert_eq!("sayveust0000", config.lp_token_addr.as_str());
     assert_eq!("reward0000", config.reward_contract_addr.as_str());
-    assert_eq!("vkr0000", config.reward_token_addr.as_str());
+    assert_eq!("sayve0000", config.reward_token_addr.as_str());
 }
 
 #[test]
@@ -40,9 +40,9 @@ fn test_deposit() {
     let msg = InstantiateMsg {
         generator_contract_addr: "generator0000".to_string(),
         pair_addr: "pair0000".to_string(),
-        lp_token_addr: "vkrust0000".to_string(),
+        lp_token_addr: "sayveust0000".to_string(),
         reward_contract_addr: "reward0000".to_string(),
-        reward_token_addr: "vkr0000".to_string(),
+        reward_token_addr: "sayve0000".to_string(),
     };
 
     let info = mock_info("addr0000", &[]);
@@ -62,7 +62,7 @@ fn test_deposit() {
     };
 
     // deposit fails when cw20 sender is not generator
-    let info = mock_info("vkrust0000", &[]);
+    let info = mock_info("sayveust0000", &[]);
     let deposit_msg = ExecuteMsg::Receive(Cw20ReceiveMsg {
         sender: "addr0000".to_string(),
         amount: Uint128::from(100u128),
@@ -76,7 +76,7 @@ fn test_deposit() {
     };
 
     // successfull deposit
-    let info = mock_info("vkrust0000", &[]);
+    let info = mock_info("sayveust0000", &[]);
     let deposit_msg = ExecuteMsg::Receive(Cw20ReceiveMsg {
         sender: "generator0000".to_string(),
         amount: Uint128::from(100u128),
@@ -87,12 +87,12 @@ fn test_deposit() {
     assert_eq!(
         res.messages,
         vec![SubMsg::new(CosmosMsg::Wasm(WasmMsg::Execute {
-            contract_addr: "vkrust0000".to_string(),
+            contract_addr: "sayveust0000".to_string(),
             funds: vec![],
             msg: to_binary(&Cw20ExecuteMsg::Send {
                 contract: "reward0000".to_string(),
                 amount: Uint128::from(100u128),
-                msg: to_binary(&VkrCw20HookMsg::Bond {}).unwrap(),
+                msg: to_binary(&SayveCw20HookMsg::Bond {}).unwrap(),
             })
             .unwrap(),
         }))]
@@ -116,9 +116,9 @@ fn test_update_rewards() {
     let msg = InstantiateMsg {
         generator_contract_addr: "generator0000".to_string(),
         pair_addr: "pair0000".to_string(),
-        lp_token_addr: "vkrust0000".to_string(),
+        lp_token_addr: "sayveust0000".to_string(),
         reward_contract_addr: "reward0000".to_string(),
-        reward_token_addr: "vkr0000".to_string(),
+        reward_token_addr: "sayve0000".to_string(),
     };
 
     let info = mock_info("addr0000", &[]);
@@ -148,12 +148,12 @@ fn test_update_rewards() {
         vec![SubMsg::new(CosmosMsg::Wasm(WasmMsg::Execute {
             contract_addr: "reward0000".to_string(),
             funds: vec![],
-            msg: to_binary(&VkrExecuteMsg::Withdraw {}).unwrap(),
+            msg: to_binary(&SayveExecuteMsg::Withdraw {}).unwrap(),
         }))]
     );
 
     deps.querier.with_token_balances(&[(
-        &"vkr0000".to_string(),
+        &"sayve0000".to_string(),
         &[(&MOCK_CONTRACT_ADDR.to_string(), &Uint128::from(5u128))],
     )]);
     deps.querier
@@ -177,9 +177,9 @@ fn test_send_rewards() {
     let msg = InstantiateMsg {
         generator_contract_addr: "generator0000".to_string(),
         pair_addr: "pair0000".to_string(),
-        lp_token_addr: "vkrust0000".to_string(),
+        lp_token_addr: "sayveust0000".to_string(),
         reward_contract_addr: "reward0000".to_string(),
-        reward_token_addr: "vkr0000".to_string(),
+        reward_token_addr: "sayve0000".to_string(),
     };
 
     let info = mock_info("addr0000", &[]);
@@ -204,7 +204,7 @@ fn test_send_rewards() {
     assert_eq!(
         res.messages,
         vec![SubMsg::new(CosmosMsg::Wasm(WasmMsg::Execute {
-            contract_addr: "vkr0000".to_string(),
+            contract_addr: "sayve0000".to_string(),
             msg: to_binary(&Cw20ExecuteMsg::Transfer {
                 recipient: "addr0000".to_string(),
                 amount: Uint128::new(100),
@@ -220,16 +220,16 @@ fn test_withdraw() {
     let mut deps = mock_dependencies(&[]);
 
     deps.querier.with_token_balances(&[(
-        &String::from("vkrust0000"),
+        &String::from("sayveust0000"),
         &[(&String::from(MOCK_CONTRACT_ADDR), &Uint128::new(0))],
     )]);
 
     let msg = InstantiateMsg {
         generator_contract_addr: "generator0000".to_string(),
         pair_addr: "pair0000".to_string(),
-        lp_token_addr: "vkrust0000".to_string(),
+        lp_token_addr: "sayveust0000".to_string(),
         reward_contract_addr: "reward0000".to_string(),
-        reward_token_addr: "vkr0000".to_string(),
+        reward_token_addr: "sayve0000".to_string(),
     };
 
     let info = mock_info("addr0000", &[]);
@@ -257,7 +257,7 @@ fn test_withdraw() {
             SubMsg::new(WasmMsg::Execute {
                 contract_addr: "reward0000".to_string(),
                 funds: vec![],
-                msg: to_binary(&VkrExecuteMsg::Unbond {
+                msg: to_binary(&SayveExecuteMsg::Unbond {
                     amount: Uint128::new(100),
                 })
                 .unwrap(),
@@ -282,16 +282,16 @@ fn test_emergency_withdraw() {
     let mut deps = mock_dependencies(&[]);
 
     deps.querier.with_token_balances(&[(
-        &String::from("vkrust0000"),
+        &String::from("sayveust0000"),
         &[(&String::from(MOCK_CONTRACT_ADDR), &Uint128::new(100u128))],
     )]);
 
     let msg = InstantiateMsg {
         generator_contract_addr: "generator0000".to_string(),
         pair_addr: "pair0000".to_string(),
-        lp_token_addr: "vkrust0000".to_string(),
+        lp_token_addr: "sayveust0000".to_string(),
         reward_contract_addr: "reward0000".to_string(),
-        reward_token_addr: "vkr0000".to_string(),
+        reward_token_addr: "sayve0000".to_string(),
     };
 
     let info = mock_info("addr0000", &[]);
@@ -319,7 +319,7 @@ fn test_emergency_withdraw() {
             SubMsg::new(WasmMsg::Execute {
                 contract_addr: "reward0000".to_string(),
                 funds: vec![],
-                msg: to_binary(&VkrExecuteMsg::Unbond {
+                msg: to_binary(&SayveExecuteMsg::Unbond {
                     amount: Uint128::new(100),
                 })
                 .unwrap(),
@@ -346,9 +346,9 @@ fn test_query_reward_info() {
     let msg = InstantiateMsg {
         generator_contract_addr: "generator0000".to_string(),
         pair_addr: "pair0000".to_string(),
-        lp_token_addr: "vkrust0000".to_string(),
+        lp_token_addr: "sayveust0000".to_string(),
         reward_contract_addr: "reward0000".to_string(),
-        reward_token_addr: "vkr0000".to_string(),
+        reward_token_addr: "sayve0000".to_string(),
     };
 
     let info = mock_info("addr0000", &[]);
@@ -356,5 +356,5 @@ fn test_query_reward_info() {
 
     let res = query(deps.as_ref(), mock_env(), QueryMsg::RewardInfo {}).unwrap();
     let query_res: Addr = from_binary(&res).unwrap();
-    assert_eq!(query_res, Addr::unchecked("vkr0000"));
+    assert_eq!(query_res, Addr::unchecked("sayve0000"));
 }

@@ -9,7 +9,7 @@ These are needed for allowing dual incentives on the Astro LP Tokens via the gen
 
 | Name                           | Description                      |
 | ------------------------------ | -------------------------------- |
-| [`proxy_to_vkr`](contracts/proxy_to_vkr) | Generator Proxy to Valkyrie Protocol |
+| [`proxy_to_sayve`](contracts/proxy_to_sayve) | Generator Proxy to Sayve Protocol |
 
 ## Building Contracts
 
@@ -49,3 +49,60 @@ We use [main](https://github.com/astroport-fi/astro-generator-proxy-contracts/tr
 
 Docs can be generated using `cargo doc --no-deps`
 
+## Contracts
+Testnet: Code ID 7141
+Mainnet: Code ID 1028
+
+### Init message
+#### Testnet
+```
+
+{
+  "generator_contract_addr": "terra1gc4d4v82vjgkz0ag28lrmlxx3tf6sq69tmaujjpe7jwmnqakkx0qm28j2l",
+  "lp_token_addr": "terra18pvm8tmgyutmlykhtwt48lqgvak4afkl4uuu7dryh8xt9g4lfn4sc0u3xt",
+  "pair_addr": "terra1d9058pntz4rzut00hcara77hc9hrm3p8c0c88sgelnz8t5w5q6ds0jt2ju",
+  "reward_contract_addr": "terra1gv5852s3nme2q7tj6qhmkve8hsku5d58pvxt5yt3m2zpjg3l29gqtzcerj",
+  "reward_token_addr": "terra16q6kqp0p2hlfgj52sadv5p7qh2hgkkjdfske48vklz94tkxg4jwq8k8myj"
+}
+```
+
+The generator contract address is from "generator_address"
+```
+https://github.com/astroport-fi/astroport-changelog/blob/main/terra-2/pisco-1/core_pisco.json
+```
+ex_proxy_addr from initiation
+```
+terra1648m2znznvcdadem5dherx4z8zle8yuyxz37khtdkv7hra93s02snfnylk
+```
+
+
+## Astro Proposal
+### Install dependencies
+npm init -y
+npm install @terra-money/terra.js
+
+
+
+### Governance
+Messages to add a proxy to your own staking contract (optional):
+1. Build your proxy contract cloning and instantiate it.
+2. Update paramaters in propose_dual_proxy_no_astro.js 
+```
+ex_proxy_addr: "terra1648m2znznvcdadem5dherx4z8zle8yuyxz37khtdkv7hra93s02snfnylk"
+```
+and
+assembly_address = "astral_assembly_address" <br>
+xastro_address = "xastro_token_address" <br>
+generator_address = "generator_address" <br>
+from 
+```
+https://github.com/astroport-fi/astroport-changelog/blob/main/terra-2/pisco-1/core_pisco.json
+```
+3. Make a message to allow the proxy via the generator's update_allowed_proxies endpoint.
+4. Make a message to move lp tokens to the proxy via the generator's move_to_proxy endpoint.
+
+
+### Submit Proposal
+```
+node propose_dual_proxy_no_astro.js
+```
