@@ -70,9 +70,18 @@ The generator contract address is from "generator_address"
 ```
 https://github.com/astroport-fi/astroport-changelog/blob/main/terra-2/pisco-1/core_pisco.json
 ```
-The reward_contract_addr is your LP staking contract
-The reward_token_addr is the token you will be giving as reward
-lp_token and pair_addr are created when you create pool on astroport
+The reward_contract_addr is your LP staking contract <br>
+The reward_token_addr is the token you will be giving as reward <br>
+lp_token and pair_addr are created when you create pool on astroport <br>
+For example looking at VKR
+```
+https://terrasco.pe/mainnet/tx/C69F9A70DE209EFFC473ACD40522480E02F8F0706076B33CD7C58ECA23CA45B7
+``` 
+We can see the lp_token_addr and pair_addr
+```
+liquidity_token_addr    terra18mcmlf4v23ehukkh7qxgpf5tznzg6893fxmf9ffmdt9phgf365zqvmlug6
+pair_contract_addr  terra1alzkrc6hkvs8g5a064cukfxnv0jj4l3l8vhgfypfxvysk78v6dgqsymgmv
+```
 ex_proxy_addr from initiation
 ```
 terra1648m2znznvcdadem5dherx4z8zle8yuyxz37khtdkv7hra93s02snfnylk
