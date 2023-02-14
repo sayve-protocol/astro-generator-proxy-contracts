@@ -70,6 +70,9 @@ The generator contract address is from "generator_address"
 ```
 https://github.com/astroport-fi/astroport-changelog/blob/main/terra-2/pisco-1/core_pisco.json
 ```
+The reward_contract_addr is your LP staking contract
+The reward_token_addr is the token you will be giving as reward
+lp_token and pair_addr are created when you create pool on astroport
 ex_proxy_addr from initiation
 ```
 terra1648m2znznvcdadem5dherx4z8zle8yuyxz37khtdkv7hra93s02snfnylk
@@ -98,8 +101,7 @@ from
 ```
 https://github.com/astroport-fi/astroport-changelog/blob/main/terra-2/pisco-1/core_pisco.json
 ```
-3. Make a message to allow the proxy via the generator's update_allowed_proxies endpoint.
-4. Make a message to move lp tokens to the proxy via the generator's move_to_proxy endpoint.
+3. Make a message to move lp tokens to the proxy via the generator's move_to_proxy endpoint.
 
 
 ### Submit Proposal
